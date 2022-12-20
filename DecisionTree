@@ -1,0 +1,532 @@
+import pandas as pd
+import numpy as np
+from sklearn.datasets import load_iris
+from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plot
+from sklearn.tree import DecisionTreeClassifier 
+from sklearn import tree
+from sklearn.model_selection import train_test_split
+import pdfkit
+
+<ul>
+<li><a href="#Size30">Size30</a></li>
+<li><a href="#Size40">Size40</a></li>
+<li><a href="#Size50">Size50</a></li>
+<li><a href="#Size60">Size60</a></li>
+<li><a href="#Size70">Size70</a></li>
+</ul>
+
+# Reading the BankNote_Authentication.csv file
+data = pd.read_csv("BankNote_Authentication.csv")
+
+
+data.info()
+
+data.head()
+
+data.describe()
+
+# shuffling data
+data = data.sample(frac=1)
+
+data.head()
+
+y = data['class'].to_numpy()
+x = data.drop(columns = ['class']).to_numpy()
+x ,y
+
+print(x.shape)
+print(y.shape)
+
+# 1) Experiment with a fixed train_test split ratio:Use 25% of the samples for training and the rest for testing.
+
+# Import Library for splitting data
+from sklearn.model_selection import train_test_split
+
+# Creating Train and Test datasets
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 50, train_size=0.25)
+
+# 1) Experiment with a fixed train_test split ratio:Use 25% of the samples for training and the rest for testing.
+# Creating Train and Test datasets
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 10, train_size=0.25)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+
+fig = plt.figure(figsize=(25,20))
+feature_name = data.columns[:4]
+_ = tree.plot_tree(clf, 
+                   feature_names=feature_name,  
+                   class_names='class',
+                   filled=True, 
+                   rounded = True,
+                  fontsize= 13)
+
+testAccuracy=[]
+treeSize=[]
+
+# 2. a. train_size=0.30 => 1
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 10, train_size=0.30)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+
+# 2. a. train_size=0.30 => 2
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 100, train_size=0.30)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+# 2. a. train_size=0.30 => 3
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 200, train_size=0.30)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+# 2. a. train_size=0.30 => 4
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 300, train_size=0.30)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+
+# 2. a. train_size=0.30 => 5
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 400, train_size=0.30)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+<a id='Size30'></a>
+
+testAccuracy = np.array(testAccuracy)
+treeSize = np.array(treeSize)
+print("Minimum test accuracy = " , testAccuracy.min())
+print("Maxmum test accuracy = " , testAccuracy.max())
+print("Mean test accuracy = " , testAccuracy.mean())
+print("----------------------------------------------------")
+print("Minimum size of tree = " , treeSize.min())
+print("Maxmum size of tree = " , treeSize.max())
+print("Mean size of tree = " ,treeSize.mean())
+
+report = pd.DataFrame({ "size": [0.30],
+                    "Minimum test accuracy" : [testAccuracy.min()],
+                    "Maxmum test accuracy" : [testAccuracy.max()],
+                    "Mean test accuracy" : [testAccuracy.mean()],
+                    "Minimum size of tree" : [treeSize.min()],
+                    "Maxmum size of tree" : [treeSize.max()],
+                    "Mean size of tree" : [treeSize.mean()]
+                      })
+              
+testAccuracy=[]
+treeSize=[]
+
+report
+
+<ul>
+<li><a href="#Size40">Size40</a></li>
+</ul>
+
+# 2. a. train_size=0.40 => 1
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 10, train_size=0.40)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+# 2. a. train_size=0.40 => 2
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 100, train_size=0.40)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+# 2. a. train_size=0.40 => 3
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 200, train_size=0.40)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+# 2. a. train_size=0.40 => 4
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 300, train_size=0.40)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+# 2. a. train_size=0.40 => 5
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 400, train_size=0.40)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+<a id='Size40'></a>
+
+testAccuracy = np.array(testAccuracy)
+treeSize = np.array(treeSize)
+print("Minimum test accuracy = " , testAccuracy.min())
+print("Maxmum test accuracy = " , testAccuracy.max())
+print("Mean test accuracy = " ,testAccuracy.mean())
+print("----------------------------------------------------")
+print("Minimum size of tree = " , treeSize.min())
+print("Maxmum size of tree = " , treeSize.max())
+print("Mean size of tree = " ,treeSize.mean())
+
+report = report.append({ "size": 0.40,
+                    "Minimum test accuracy" : testAccuracy.min(),
+                    "Maxmum test accuracy" : testAccuracy.max(),
+                    "Mean test accuracy" : testAccuracy.mean(),
+                    "Minimum size of tree" : treeSize.min(),
+                    "Maxmum size of tree" : treeSize.max(),
+                    "Mean size of tree" : treeSize.mean()
+                      },ignore_index=True)
+
+testAccuracy=[]
+treeSize=[]
+
+<ul>
+<li><a href="#Size50">Size50</a></li>
+</ul>
+
+# 2. a. train_size=0.50 => 1
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 10, train_size=0.50)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+# 2. a. train_size=0.50 => 2
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 100, train_size=0.50)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+# 2. a. train_size=0.50 => 3
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 200, train_size=0.50)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+# 2. a. train_size=0.50 => 4
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 300, train_size=0.50)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+# 2. a. train_size=0.50 => 5
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 400, train_size=0.50)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+<a id='Size50'></a>
+
+testAccuracy = np.array(testAccuracy)
+treeSize = np.array(treeSize)
+print("Minimum test accuracy = " , testAccuracy.min())
+print("Maxmum test accuracy = " , testAccuracy.max())
+print("Mean test accuracy = " ,testAccuracy.mean())
+print("----------------------------------------------------")
+print("Minimum size of tree = " , treeSize.min())
+print("Maxmum size of tree = " , treeSize.max())
+print("Mean size of tree = " ,treeSize.mean())
+
+
+
+report = report.append({ "size": 0.50,
+                    "Minimum test accuracy" : testAccuracy.min(),
+                    "Maxmum test accuracy" : testAccuracy.max(),
+                    "Mean test accuracy" : testAccuracy.mean(),
+                    "Minimum size of tree" : treeSize.min(),
+                    "Maxmum size of tree" : treeSize.max(),
+                    "Mean size of tree" : treeSize.mean()
+                      },ignore_index=True)
+
+testAccuracy=[]
+treeSize=[]
+
+<ul>
+<li><a href="#Size60">Size60</a></li>
+</ul>
+
+# 2. a. train_size=0.60 => 1
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 10, train_size=0.60)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+# 2. a. train_size=0.60 => 2
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 100, train_size=0.60)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+# 2. a. train_size=0.60 => 3
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 200, train_size=0.60)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+# 2. a. train_size=0.60 => 4
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 300, train_size=0.60)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+# 2. a. train_size=0.60 => 5
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 400, train_size=0.60)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+<a id='Size60'></a>
+
+testAccuracy = np.array(testAccuracy)
+treeSize = np.array(treeSize)
+print("Minimum test accuracy = " , testAccuracy.min())
+print("Maxmum test accuracy = " , testAccuracy.max())
+print("Mean test accuracy = " , testAccuracy.mean())
+print("----------------------------------------------------")
+print("Minimum size of tree = " , treeSize.min())
+print("Maxmum size of tree = " , treeSize.max())
+print("Mean size of tree = " ,treeSize.mean())
+
+report = report.append({ "size": 0.60,
+                    "Minimum test accuracy" : testAccuracy.min(),
+                    "Maxmum test accuracy" : testAccuracy.max(),
+                    "Mean test accuracy" : testAccuracy.mean(),
+                    "Minimum size of tree" : treeSize.min(),
+                    "Maxmum size of tree" : treeSize.max(),
+                    "Mean size of tree" : treeSize.mean()
+                      },ignore_index=True)
+testAccuracy=[]
+treeSize=[]
+
+<ul>
+<li><a href="#Size70">Size70</a></li>
+</ul>
+
+# 2. a. train_size=0.70 => 1
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 10, train_size=0.70)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+# 2. a. train_size=0.70 => 2
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 100, train_size=0.70)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+# 2. a. train_size=0.70 => 3
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 200, train_size=0.70)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+# 2. a. train_size=0.70 => 4
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 300, train_size=0.70)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+# 2. a. train_size=0.70 => 5
+x_train, x_test, y_train, y_test = train_test_split(x,y, random_state = 400, train_size=0.70)
+clf = DecisionTreeClassifier()
+clf.fit(x_train,y_train)
+# Predict Accuracy Score
+y_pred = clf.predict(x_test)
+treeObj = clf.tree_
+print("Test data accuracy:",(accuracy_score(y_true = y_test, y_pred=y_pred)) * 100)
+print( "The size of tree :", treeObj.node_count)
+testAccuracy.append(((accuracy_score(y_true = y_test, y_pred=y_pred)) * 100))
+treeSize.append(treeObj.node_count)
+
+<a id='Size60'></a>
+
+<a id='Size70'></a>
+
+testAccuracy = np.array(testAccuracy)
+treeSize = np.array(treeSize)
+print("Minimum test accuracy = " , testAccuracy.min())
+print("Maxmum test accuracy = " , testAccuracy.max())
+print("Mean test accuracy = " ,testAccuracy.mean())
+print("----------------------------------------------------")
+print("Minimum size of tree = " , treeSize.min())
+print("Maxmum size of tree = " , treeSize.max())
+print("Mean size of tree = " ,treeSize.mean())
+
+report = report.append({ "size": 0.70,
+                    "Minimum test accuracy" : testAccuracy.min(),
+                    "Maxmum test accuracy" : testAccuracy.max(),
+                    "Mean test accuracy" : testAccuracy.mean(),
+                    "Minimum size of tree" : treeSize.min(),
+                    "Maxmum size of tree" : treeSize.max(),
+                    "Mean size of tree" : treeSize.mean()
+                      },ignore_index=True)
+testAccuracy=[]
+treeSize=[]
+
+report
+
+f = open('exp.html','w')
+a = report.to_html()
+f.write(a)
+f.close()
+
+sizes = [30,40,50,60,70]
+
+report.plot(kind='scatter', x='size', y='Mean test accuracy')
+plot.show()
+
+report.plot(kind='scatter', x='size', y='Mean size of tree')
+plot.show()
+
